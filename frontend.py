@@ -16,12 +16,13 @@ search_column = [
 	[sg.Combo(one_lines, background_color = "LightGrey", text_color = "Black", size = (15,1))],
     [sg.Checkbox('100% Rated')],
     [sg.Checkbox('ERMS')],
+    [sg.Checkbox('4P Breakers (Wallmounts only Mitch)')],
 	[sg.Submit(), sg.Cancel()]
 ]
 
 image_column = [
-    [sg.Image("trystar.png")],
-    [sg.Text('Trystar Insulator', font = ('Berlin Sans FB', 12))] 
+    [sg.Image("image/trystar.png")],
+    [sg.Text('Trystar INSULATOR', font = ('Berlin Sans FB', 12))] 
 ]
 
 layout = [
@@ -30,7 +31,7 @@ layout = [
      sg.Column(image_column),]
 ]
 
-window = sg.Window('Insulator', layout)
+window = sg.Window('Insulator', layout, icon = "image/trystar-mark.ico")
 event, values = window.read()
 window.close()
 
@@ -38,3 +39,4 @@ part_number = values[0]
 one_line = values[1]
 is_100_percent_rated = values[2]
 erms = values[3]
+is_4P = values[4]
