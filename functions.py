@@ -43,12 +43,18 @@ def adder_part_list(adders):
     adder_flat_list = list(chain(*(adder if isinstance(adder, tuple) else (adder,) for adder in adder_parts)))
     return adder_flat_list
 
-def wallmount_breaker_pull(one_line, amperage, is_100_percent_rated):
+def wallmount_breaker_pull(one_line, amperage, is_100_percent_rated, is_4P):
     if is_100_percent_rated == False:
-        breaker_kit = w_breaker_library[str(amperage)]
-        quantity = amount_of_breakers[one_line]
-        for i in range (0, len(breaker_kit)):
-            breaker_kit[i][1] = quantity * breaker_kit[i][1]
+        if is_4P == False:
+            breaker_kit = w_breaker_library[str(amperage)]
+            quantity = amount_of_breakers[one_line]
+            for i in range (0, len(breaker_kit)):
+                breaker_kit[i][1] = quantity * breaker_kit[i][1]
+        else:
+            breaker_kit = w_breaker_library_4P[str(amperage)]
+            quantity = amount_of_breakers[one_line]
+            for i in range (0, len(breaker_kit)):
+                breaker_kit[i][1] = quantity * breaker_kit[i][1]
     else:
         breaker_kit = w_breaker_library_100[str(amperage)]
         quantity = amount_of_breakers[one_line]
@@ -121,7 +127,7 @@ def phase_rotation_monitor(voltage_code):
         prm_list = [["LFKLKR.250", 3], ["LFLPSC0003ZXID", 1], ["SI3UG45121AR20", 1], ["TS81339-001", 1], ["TS81667-001", 1]]
     return prm_list
 
-def internal_wiring(amperage, one_line, voltage_code, enclosure_code):
+def internal_wiring(amperage, one_line, voltage_code, enclosure_code, is_4P):
     if enclosure_code == "P":
         compressions = p_compression_lugs[str(amperage)]
         breaker_amount = amount_of_breakers[one_line]
@@ -138,15 +144,19 @@ def internal_wiring(amperage, one_line, voltage_code, enclosure_code):
         amount = w_compression_lug_locations[one_line]
         if voltage_code == 1:
             compressions[1] = compressions[1] * 2 * amount
-        else:
+        elif is_4P == False:
             compressions[1] = compressions[1] * 3 * amount
+        else:
+            compressions[1] = compressions[1] * 4 * amount
     elif enclosure_code == "L":
         compressions = compression_lug_library[str(amperage)]
         amount = w_compression_lug_locations[one_line]
         if voltage_code == 1:
             compressions[1] = compressions[1] * 2 * amount
-        else:
+        elif is_4P == False:
             compressions[1] = compressions[1] * 3 * amount
+        else:
+            compressions[1] = compressions[1] * 4 * amount
     return compressions
 
 def split_list(full_list):
