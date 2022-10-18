@@ -10,7 +10,7 @@ def purpose_matching(parts_list, one_line):
         purpose_validity = True
     else:
         purpose_validity = False
-        sg.popup("Please Enter a Valid Part Number and One Line Combination")
+        sg.popup("Please Enter a Valid Part Number and One Line Combination", icon = "image/trystar-mark.ico")
     return purpose_validity
 
 def modifier_valid(one_line, erms, is_100_percent_rated):
@@ -18,10 +18,22 @@ def modifier_valid(one_line, erms, is_100_percent_rated):
     if is_100_percent_rated or erms == True:
         if amount == 0:
             modifier_validity = False
-            sg.popup("ERMS or 100% Rated Selected with no breakers")
+            sg.popup("ERMS or 100% Rated Selected with no breakers", icon = "image/trystar-mark.ico")
         else:
             modifier_validity = True
     else:
         modifier_validity = True
     print(f"Mod: {modifier_validity}")
     return modifier_validity
+
+def invalid_checkbox(is_4P, is_100_percent_rated, enclosure_code):
+    if is_4P == True and is_100_percent_rated == True:
+        checkbox_validity = False
+        sg.popup("100% Rated and 4P do not Currently Work Together", icon = "image/trystar-mark.ico")
+    elif is_4P == True and enclosure_code == "P":
+        checkbox_validity = False
+        sg.popup("4P in Padmounts Not Supported Yet", icon = "image/trystar-mark.ico")
+    else:
+        checkbox_validity = True
+    return checkbox_validity
+
